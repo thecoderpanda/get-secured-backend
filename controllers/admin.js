@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import validateLoginInput from "../validation/login.js";
+import Profile from "../models/Profile.js"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import passport from "passport";
@@ -58,7 +59,7 @@ export const register = async (req, res) => {
         }
       });
 
-      emailclient.sendsignupemail(req.body.first_name, req.body.email)
+      // emailclient.sendsignupemail(req.body.first_name, req.body.email)
 
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -77,31 +78,6 @@ export const register = async (req, res) => {
         last_name: newUser.last_name,
         role: newUser.role
       };
-
-
-      try {
-        mixpanelcore.alias(newUser.id, newUser.email)
-        mixpanelcore.people.set(newUser.email, {
-          $first_name: newUser.first_name,
-          $last_name: newUser.last_name,
-          $email: newUser.email,
-          $distinct_id: newUser.email,
-        })
-
-        mixpanelcore.track('RegisterServerSide', {
-          $first_name: newUser.first_name,
-          $last_name: newUser.last_name,
-          $Email: newUser.email,
-          $distinct_id: newUser.email
-        })
-
-      }
-      catch (error) {
-        res.status(403).send("Something went wrong")
-        console.log(error)
-      }
-
-
 
       //Sign token
       jwt.sign(
@@ -122,6 +98,9 @@ export const register = async (req, res) => {
 
 
 }
+
+
+
 export const login = async (req, res) => {
   const secretOrKey = "secret";
   const { errors, isValid } = validateLoginInput(req.body);

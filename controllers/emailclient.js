@@ -1,6 +1,6 @@
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const fs = require('fs'); //Filesystem    
-SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = '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';
+SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = '';
 
 let emaildomain = 'naman@lumoslabs.co';
 //

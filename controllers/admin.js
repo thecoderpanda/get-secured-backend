@@ -15,6 +15,34 @@ export const getAdmins = async (req, res) => {
   }
 };
 
+export const register = async(req, res) => {
+  const secretOrKey = "secret";
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(200).json({ message: "Invalid Email ID / password" });
+  }
+
+  const email = req.body.email;
+  const password = req.body.password;
+
+  User.findOne({email}).then(user => {
+    if(!user){
+      const payload = {
+        id: user._id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        role: 'user',
+        
+      }
+    }
+  })
+
+
+
+}
 export const login = async (req, res) => {
   const secretOrKey = "secret";
   const { errors, isValid } = validateLoginInput(req.body);

@@ -1,18 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema
 
-const courseCompletedSchema = new Schema({
-  courseId: {
-    type: Schema.Types.ObjectId,
-    ref: "Course",
-    required: true
-  },
-  completedLectures: [{
-    type: Schema.Types.ObjectId,
-    ref: "Lecture",
-  }]
-})
-
 const UserSchema = new Schema({
   first_name: {
     type: String,
@@ -39,9 +27,6 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  courses: [{
-    type: courseCompletedSchema
-  }]
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }); //automatically add while insert or update the object
 

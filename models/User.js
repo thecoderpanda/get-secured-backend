@@ -25,7 +25,7 @@ const UserSchema = new Schema({
   }],
   role: {
     type: String,
-    required: true
+    required: true 
   },
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }); //automatically add while insert or update the object

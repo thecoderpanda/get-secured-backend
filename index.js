@@ -9,6 +9,7 @@ import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 import adminRoutes from "./routes/admin.js";
 import salesRoutes from "./routes/sales.js";
+import smartcontractRoutes from "./routes/smart-contract.js"
 
 // data imports
 import User from "./models/User.js";
@@ -39,6 +40,7 @@ app.use(cors());
 
 /* ROUTES */
 app.use("/client", clientRoutes);
+app.use("/sm",smartcontractRoutes )
 app.use("/general", generalRoutes);
 app.use("/admin", adminRoutes);
 app.use("/sales", salesRoutes);

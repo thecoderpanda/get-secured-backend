@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 
 
+
 export const getAdmins = async (req, res) => {
   try {
     const admins = await User.find({ role: "admin" }).select("-password");
@@ -17,10 +18,7 @@ export const getAdmins = async (req, res) => {
 };
 
 export const register = async (req, res) => {
-  if (!emailRegex.test(req.body.email)) {
-    errors.message = "Email is invalid !";
-    return res.status(504).json(errors);
-  }
+
 
   if (!req.body.password || req.body.password === "") {
     errors.message = "Password is invalid !"
@@ -32,18 +30,12 @@ export const register = async (req, res) => {
       errors.message = "Email already exists";
       return res.status(504).json(errors);
     } else {
-      const avatar = gravatar.url(req.body.email, {
-        s: "200", //Size
-        r: "pg", //Rating
-        d: "mm" //Default
-      });
-
       const newUser = new User({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
         password: req.body.password,
-        role: req.body.role
+        role: "user"
       });
 
       Profile.findOne({ user: newUser._id }).then(profile => {
@@ -53,7 +45,6 @@ export const register = async (req, res) => {
         } else {
           const newProfile = new Profile({
             user: newUser._id,
-            avatar: avatar
           });
           newProfile.save();
         }
@@ -82,7 +73,7 @@ export const register = async (req, res) => {
       //Sign token
       jwt.sign(
         payload,
-        keys.secretOrKey,
+        process.env.SECRET,
         { expiresIn: 3600 },
         (err, token) => {
           if (err) console.log(err);
@@ -102,7 +93,7 @@ export const register = async (req, res) => {
 
 
 export const login = async (req, res) => {
-  const secretOrKey = "secret";
+  const secretOrKey = process.env.SECRET;
   const { errors, isValid } = validateLoginInput(req.body);
 
   // Check Validation
@@ -115,6 +106,7 @@ export const login = async (req, res) => {
 
   //Find user by email
   User.findOne({ email }).then(user => {
+    console.log(email)
     if (!user) {
       return res.status(200).json({ message: "User not found" });
     }

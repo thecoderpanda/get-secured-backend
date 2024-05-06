@@ -3,52 +3,17 @@ const Schema = mongoose.Schema;
 
 const CourseSchema = new Schema(
     {
-        courseName: {
+        chainName: {
             type: String,
             required: true
         },
-        courseDescription: {
+        contractCode: {
             type: String,
-            required: true
         },
-        courseImage: {
+        contractAddress: {
             type: String,
-            required: true
         },
-        category: {
-            type: Schema.Types.ObjectId,
-            ref: "Category"
-
-        },
-        instructor: { type: Schema.Types.ObjectId, ref: "User" },
-        //category: { type: Schema.Types.ObjectId, ref: "Category" },
-        lectures: [{
-            type: Schema.Types.ObjectId,
-            ref: "Lecture"
-        }],
-        enrolledStudents: [{
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        }],
-        completedLectures: {
-            type: Number,
-            default: 0
-        },
-
-        assignments: [{
-            type: Schema.Types.ObjectId,
-            ref: "Assignment"
-        }],
-
-        live: {
-            type: Boolean,
-        },
-
-        NFTid: {
-            type: Schema.Types.ObjectId,
-            ref: "NFTs"
-        }
-
+        
 
     },
     { timestamps: { createdAt: "created_at" } }
